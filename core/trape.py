@@ -11,10 +11,11 @@
 #
 # Copyright 2018 by Jose Pino (@jofpin) / <jofpin@gmail.com>
 #**
+
 import time
 import json
 from core.dependence import urllib2
-import httplib 
+import http.client
 import argparse
 import socket
 import sys
@@ -22,10 +23,12 @@ import os
 from core.utils import utils
 import subprocess
 import requests
+"""
 import hashlib, binascii
 from threading import Timer
 from multiprocessing import Process
 import atexit
+"""
 
 class Trape(object):
 	def __init__(self, stat = 0):
@@ -46,7 +49,7 @@ class Trape(object):
 		self.CSSFiles = ({"path" : "/static/img/favicon.ico", "src" : utils.generateToken(12)},{"path" : "/static/img/favicon.png", "src" : utils.generateToken(12)},{"path" : "/static/css/base-icons.css", "src" : utils.generateToken(12)},{"path" : "/static/css/styles.css", "src" : utils.generateToken(12)},{"path" : "/static/css/normalize.min.css", "src" : utils.generateToken(12)},{"path": "/static/css/services-icons.css", "src" : utils.generateToken(12)},)
 
 		if self.stat == 1:
-			c = httplib.HTTPConnection('www.google.com', timeout=5)
+			c = http.client.HTTPConnection('www.google.com', timeout=5)
 			try:
 				c.request("HEAD", "/")
 				c.close()
@@ -106,10 +109,10 @@ class Trape(object):
 				utils.Go(utils.Color['whiteBold'] + "[" + utils.Color['greenBold'] + "!" + utils.Color['whiteBold'] + "]" + " " + utils.Color['white'] + "Enter the information requested below to complete the execution" + utils.Color['white'])
 				utils.Go("")
 
-				options.url = raw_input(utils.Color['blueBold'] + "-" + utils.Color['white'] + " Enter a URL to generate the lure" + " " + utils.Color['yellow'] + ":~> " + utils.Color['white'])
+				options.url = input(utils.Color['blueBold'] + "-" + utils.Color['white'] + " Enter a URL to generate the lure" + " " + utils.Color['yellow'] + ":~> " + utils.Color['white'])
 
 			if options.port is None:
-				options.port = raw_input(utils.Color['blueBold'] + "-" + utils.Color['white'] + " What is your port to generate the server?" + " " + utils.Color['yellow'] + ":~> " + utils.Color['white'])
+				options.port = input(utils.Color['blueBold'] + "-" + utils.Color['white'] + " What is your port to generate the server?" + " " + utils.Color['yellow'] + ":~> " + utils.Color['white'])
 
 			while utils.checkPort(int(options.port)) == False:
 				utils.Go("\033[H\033[J")
@@ -118,10 +121,10 @@ class Trape(object):
 				utils.Go("----------------------------------------------")
 				utils.Go("\n")
 				utils.Go(utils.Color['whiteBold'] + "[" + utils.Color['redBold'] + "x" + utils.Color['whiteBold'] + "]" + utils.Color['redBold'] + " " + "ERROR:" + " " + utils.Color['whiteBold'] + "The port: " + options.port + utils.Color['white'] + " " + "is not available, It was previously used (" + utils.Color['yellow'] + "Use another port" + utils.Text['end'] + ")" + "\n\n")
-				options.port = raw_input(utils.Color['blueBold'] + "-" + utils.Color['white'] + " What is your port to generate the server?" + " " + utils.Color['yellow'] + ":~> " + utils.Color['white'])
+				options.port = input(utils.Color['blueBold'] + "-" + utils.Color['white'] + " What is your port to generate the server?" + " " + utils.Color['yellow'] + ":~> " + utils.Color['white'])
 
 			#while utils.checkUrl(str(options.url)) == False:
-				options.url = raw_input(utils.Color['blueBold'] + "-" + utils.Color['white'] + " Enter a URL to generate the lure" + " " + utils.Color['yellow'] + ":~> " + utils.Color['white'])
+				options.url = input(utils.Color['blueBold'] + "-" + utils.Color['white'] + " Enter a URL to generate the lure" + " " + utils.Color['yellow'] + ":~> " + utils.Color['white'])
 
 
 			utils.Go("")
@@ -143,7 +146,7 @@ class Trape(object):
 			if (options.ngrok or (self.ngrok != "")):
 				if self.ngrok == '':
 					utils.Go("\033[H\033[J")
-					self.ngrok = raw_input("What is your nGrok token?" + " " + utils.Color['yellow'] + ":~> " + utils.Color['white'])
+					self.ngrok = input("What is your nGrok token?" + " " + utils.Color['yellow'] + ":~> " + utils.Color['white'])
 				if (self.ngrok != ''):
 					from core.ngrok import ngrok
 					import os.path as path
@@ -260,20 +263,20 @@ class Trape(object):
 		utils.Go("------")
 		utils.Go("In the next section you must enter your Ngrok token, if you do not have \none register at (" + utils.Color['blueBold'] + "https://ngrok.com" + utils.Color['white'] + "), this data is necessary for the generation of public network tunnels.")
 		utils.Go("")
-		c_nGrokToken = raw_input(utils.Color['blueBold'] + "-" + utils.Color['white'] + " Enter your ngrok token" + " " + utils.Color['yellow'] + ":~> " + utils.Color['white'])
+		c_nGrokToken = input(utils.Color['blueBold'] + "-" + utils.Color['white'] + " Enter your ngrok token" + " " + utils.Color['yellow'] + ":~> " + utils.Color['white'])
 		utils.Go("")
 		utils.Go(utils.Color['whiteBold'] + "GOOGLE API" + utils.Color['white'])
 		utils.Go("------")
 		utils.Go("You must register with the " + utils.Color['blueBold'] + "Google Console" + utils.Color['white'] + ", and get an API for maps and another for shortening. \nBy having these data you complete the settings")
 		utils.Go("")
-		c_gMapsToken = raw_input(utils.Color['blueBold'] + "-" + utils.Color['white'] + " What is your Google Maps Api Key?" + " " + utils.Color['yellow'] + ":~> " + utils.Color['white'])
-		c_gOoglToken = raw_input(utils.Color['blueBold'] + "-" + utils.Color['white'] + " Enter your Goo.gl (shortener) Api Key (leave it empty if you don't have)" + " " + utils.Color['yellow'] + ":~> " + utils.Color['white'])
+		c_gMapsToken = input(utils.Color['blueBold'] + "-" + utils.Color['white'] + " What is your Google Maps Api Key?" + " " + utils.Color['yellow'] + ":~> " + utils.Color['white'])
+		c_gOoglToken = input(utils.Color['blueBold'] + "-" + utils.Color['white'] + " Enter your Goo.gl (shortener) Api Key (leave it empty if you don't have)" + " " + utils.Color['yellow'] + ":~> " + utils.Color['white'])
 		utils.Go("")
 		utils.Go(utils.Color['whiteBold'] + "IP INFO API" + utils.Color['white'])
 		utils.Go("------")
 		utils.Go("You must register with the " + utils.Color['blueBold'] + "api.ipgeolocation.io" + utils.Color['white'] + ", and get an API for geolocation. \nBy having these data you complete the settings")
 		utils.Go("")
-		c_ipinfo = raw_input(utils.Color['blueBold'] + "-" + utils.Color['white'] + " What is your IP Info Api Key?" + " " + utils.Color['yellow'] + ":~> " + utils.Color['white'])
+		c_ipinfo = input(utils.Color['blueBold'] + "-" + utils.Color['white'] + " What is your IP Info Api Key?" + " " + utils.Color['yellow'] + ":~> " + utils.Color['white'])
 		utils.Go("")
 		utils.Go(utils.Color['greenBold'] + "-" + utils.Color['white'] + " Congratulations! " + utils.Color['greenBold'] + "Successful configuration" + utils.Color['white'] + ", now enjoy Trape!" + utils.Color['white'])
 		utils.Go("")
