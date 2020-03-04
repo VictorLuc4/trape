@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-#
+#**
 #
 #########
 # trape #
@@ -10,8 +10,7 @@
 # For full copyright information this visit: https://github.com/jofpin/trape
 #
 # Copyright 2018 by Jose Pino (@jofpin) / <jofpin@gmail.com>
-#
-
+#**
 import random
 import hashlib
 import threading
@@ -20,11 +19,9 @@ import os
 import socket
 import time
 import requests, json
-from colorama import init, Style, Fore
-import http
-
+from colorama import init , Style,Fore
+import httplib
 init()
-
 
 class utils:
     # Functions 1to get is right
@@ -103,13 +100,13 @@ class utils:
     # Simple port scan for the victim or user    
     @staticmethod
     def portScanner(victimIP):
-        client_IP = socket.gethostbyname(victimIP)
-        list_ports = [0, 21, 22, 23, 25, 42, 43, 53, 67, 79, 80, 102, 110, 115, 119, 123, 135, 137, 143, 161, 179, 379, 389, 443, 445, 465, 636, 993, 995, 1026, 1080, 1090, 1433, 1434, 1521, 1677, 1701, 1720, 1723, 1900, 2409, 2082, 2095, 3101, 3306, 3389, 3390, 3535, 4321, 4664, 5190, 5500, 5631, 5632, 5900, 65535, 7070, 7100, 8000, 8080, 8880, 8799, 9100]
+        clientIP = socket.gethostbyname(victimIP)
+        listPorts = [0, 21, 22, 23, 25, 42, 43, 53, 67, 79, 80, 102, 110, 115, 119, 123, 135, 137, 143, 161, 179, 379, 389, 443, 445, 465, 636, 993, 995, 1026, 1080, 1090, 1433, 1434, 1521, 1677, 1701, 1720, 1723, 1900, 2409, 2082, 2095, 3101, 3306, 3389, 3390, 3535, 4321, 4664, 5190, 5500, 5631, 5632, 5900, 65535, 7070, 7100, 8000, 8080, 8880, 8799, 9100]
         results = []
-        for port in list_ports:
+        for port in listPorts:
             sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             sock.settimeout(0.2)
-            result = sock.connect_ex((client_IP, port))
+            result = sock.connect_ex((clientIP, port))
             sys.stdout.flush()
             if result == 0:
                 results.append(str(port))
@@ -128,7 +125,7 @@ class utils:
                 return False
             else:
                 try:
-                    if 0 < int(port) < 65535:
+                    if int(port) > 0 and int(port) < 65535:
                         return True
                     else:
                         return False
@@ -139,7 +136,7 @@ class utils:
 
     @staticmethod
     def checkUrl(url):
-        c = http.client.HTTPConnection(url, timeout=5)
+        c = httplib.HTTPConnection(url, timeout=5)
         try:
             c.request("HEAD", "/")
             c.close()
@@ -157,12 +154,11 @@ class utils:
         r = requests.post(url, data=payload, headers=headers)
         return r
 
-
-    # # Autocompletion
-    # @staticmethod
-    # def niceShell(text, state):
-    #     matches = [i for i in commands if i.startswith(text)]
-    #     if state < len(matches):
-    #         return matches[state]
-    #     else:
-    #         return None
+    # Autocompletion
+    @staticmethod
+    def niceShell(text, state):
+        matches = [i for i in commands if i.startswith(text)]
+        if state < len(matches):
+            return matches[state]
+        else:
+            return None

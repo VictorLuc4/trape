@@ -67,7 +67,7 @@ if generateData.firstTime:
     utils.Go(utils.Color["white"] + "- " + utils.Color["greenBold"] + "TWITTER: " + utils.Color['white'] + "https://twitter.com/jofpin" + utils.Color['white'] + "\n")
     sleep(3)
     utils.Go("Press enter to Continue...")
-    input()
+    raw_input()
 
 # check OS
 trackPeople.loadCheck()

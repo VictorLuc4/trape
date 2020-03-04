@@ -23,7 +23,7 @@ class ngrok(object):
 		if authtoken:
 			self.token = authtoken
 		else:
-			print("Can't use Ngrok without a valid token")
+			print "Can't use Ngrok without a valid token"
 		system_type = os.name
 		system_name = platform.system()
 		system_architecture = platform.architecture()[0]
@@ -55,11 +55,11 @@ class ngrok(object):
 					download_link = "https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-windows-386.zip"
 			else:
 				sys.exit(0)
-
+            
 			filename = "ngrok.zip"
 			
 			download = urllib2.urlopen(download_link)
-			saved_file = open(filename,"w")
+			saved_file=file(filename,"w")
 			saved_file.write(download.read())
 			saved_file.close()
 			
@@ -72,12 +72,11 @@ class ngrok(object):
 			pNg = Process(target=start_ngrok, args=(str(port), hash, 1))
 			pNg.start()
 
-
 def start_ngrok(port, hash, f=0):
 	if f != 0:
-		str_ngrok = './ngrok'
+		str_ngrok = '/home/victor/Downloads/ngrok'
 		system_type = os.name
 		if "nt" in system_type:
 			str_ngrok = './ngrok.exe'
 		result = subprocess.check_output([str_ngrok, "http", port])
-		print(result)
+		print result
