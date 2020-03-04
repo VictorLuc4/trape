@@ -27,6 +27,7 @@ else:
             ("srWindow", wintypes.SMALL_RECT),
             ("dwMaximumWindowSize", COORD),
         ]
+
         def __str__(self):
             return '(%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d)' % (
                 self.dwSize.Y, self.dwSize.X
@@ -141,7 +142,7 @@ else:
         return num_written.value
 
     def FillConsoleOutputAttribute(stream_id, attr, length, start):
-        ''' FillConsoleOutputAttribute( hConsole, csbi.wAttributes, dwConSize, coordScreen, &cCharsWritten )'''
+        # FillConsoleOutputAttribute( hConsole, csbi.wAttributes, dwConSize, coordScreen, &cCharsWritten
         handle = handles[stream_id]
         attribute = wintypes.WORD(attr)
         length = wintypes.DWORD(length)

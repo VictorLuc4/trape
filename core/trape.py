@@ -60,7 +60,7 @@ class Trape(object):
 				sys.exit(0)
 
 			if (not(os.path.exists("trape.config"))):
-			 	self.trape_config()
+				self.trape_config()
 			try:
 				config_trape = json.load(open("trape.config"))
 			except Exception as error:
@@ -76,7 +76,7 @@ class Trape(object):
 			if self.googl == '':
 				self.googl = 'AIzaSyDHMDTOGo9L1OBl5vRxOVM6vpXOXVp5jCc'
 			
-			parser = argparse.ArgumentParser("python trape.py -u <<Url>> -p <<Port>>", version=self.version)
+			parser = argparse.ArgumentParser("python trape.py -u <<Url>> -p <<Port>>") #version=self.version
 			parser.add_argument('-u', '--url', dest='url', help='Put the web page url to clone')
 			parser.add_argument('-p', '--port', dest='port', help='Insert your port')
 			parser.add_argument('-ak', '--accesskey', dest='accesskey', help='Insert your custom key access')
@@ -132,7 +132,6 @@ class Trape(object):
 			utils.Go("")
 			time.sleep(0.1)
 
-
 			s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 			s.connect(("8.8.8.8", 80))
 			self.localIp = s.getsockname()[0]
@@ -143,11 +142,11 @@ class Trape(object):
 				self.url_to_clone = 'http://' + self.url_to_clone
 			self.victim_path = options.url.replace("http://", "").replace("https://", "")
 
-			if (options.ngrok or (self.ngrok != "")):
+			if options.ngrok or self.ngrok != "":
 				if self.ngrok == '':
 					utils.Go("\033[H\033[J")
 					self.ngrok = input("What is your nGrok token?" + " " + utils.Color['yellow'] + ":~> " + utils.Color['white'])
-				if (self.ngrok != ''):
+				if self.ngrok != '':
 					from core.ngrok import ngrok
 					import os.path as path
 
@@ -156,13 +155,12 @@ class Trape(object):
 					utils.Go(utils.Color['whiteBold'] + "[" + utils.Color['redBold'] + "x" + utils.Color['whiteBold'] + "]" + utils.Color['redBold'] + " " + "ERROR: " + " " + utils.Color['white'] + "Your nGrok authtoken can't be empty")
 			
 			# Custom name of REST API
-			if (options.injc):
+			if options.injc:
 				self.injectURL = options.injc
 
 			# Custom access token	
-			if (options.accesskey):
-			    self.stats_key = options.accesskey
-
+			if options.accesskey:
+				self.stats_key = options.accesskey
 
 	# Design principal of the header of trape
 	def header(self):
@@ -171,10 +169,10 @@ class Trape(object):
 			utils.banner()
 
 			# Update verification
-			changeLog = requests.get("https://raw.githubusercontent.com/jofpin/trape/master/version.txt", timeout = 4)
-			changeLog = changeLog.text.split(" ")[1]
-			changeLog = changeLog.strip()
-			if changeLog != self.version:
+			changelog = requests.get("https://raw.githubusercontent.com/jofpin/trape/master/version.txt", timeout = 4)
+			changelog = changelog.text.split(" ")[1]
+			changelog = changelog.strip()
+			if changelog != self.version:
 				utils.Go(utils.Color['white'] + "\t" + utils.Color['yellowBold'] + "@" + utils.Color['white'] + "-" + utils.Color['blue'] + "=" + utils.Color['white'] + "["  + utils.Color['whiteBold'] + " " + "UPDATES:" + " " + utils.Color['yellowBold'] + "NEW VERSION IS AVAILABLE: " + utils.Color['white'] + "v" + utils.Color['redBold'] + changeLog + utils.Color['white'] + " " + "(install changes)")
 				utils.Go("")
 			else:
@@ -243,7 +241,7 @@ class Trape(object):
 	def loadCheck(self):
 		utils.checkOS()
 		
-    # the main file (trape.py)
+	# the main file (trape.py)
 	def main(self):
 		import core.sockets
 
@@ -281,7 +279,7 @@ class Trape(object):
 		utils.Go(utils.Color['greenBold'] + "-" + utils.Color['white'] + " Congratulations! " + utils.Color['greenBold'] + "Successful configuration" + utils.Color['white'] + ", now enjoy Trape!" + utils.Color['white'])
 		utils.Go("")
 		time.sleep(0.4)
-		if (c_nGrokToken != '' and c_gMapsToken != ''):
+		if c_nGrokToken != '' and c_gMapsToken != '':
 			v = '{\n\t"ngrok_token" : "' + c_nGrokToken + '",\n\t"gmaps_api_key" : "' + c_gMapsToken + '",\n\t"gshortener_api_key" : "' + c_gOoglToken + '"\n\t"ipinfo_api_key" : "' + c_ipinfo + '",\n}'
 			f = open ('trape.config', 'w')
 			f.write(v)
@@ -298,10 +296,11 @@ class Trape(object):
 		code = code.replace("[SERVICES_ICONS_HREF]", self.CSSFiles[5]['src'])
 		return code
 
-# Autocompletion of console
+
+# Auto completion of console
 if "nt" in os.name:
 	pass
 else:
 	import readline
 	readline.parse_and_bind("tab:complete")
-	readline.set_completer(utils.niceShell)
+	#readline.set_completer(utils.niceShell)
